@@ -2,6 +2,7 @@ require 'nokogiri'
 require 'digest/sha2'
 require 'openssl'
 require 'base64'
+require 'builder'
 
 class Radix
   
@@ -43,6 +44,23 @@ class Radix
     raw_signature = public_key.public_decrypt( encrypted_signature )
     
     plain_text == raw_signature
+  end
+  
+  def self.generate_signature_file( file_path, private_key_path, public_key_path )
+    signature_value = signature( file_path, private_key_path )
+    
+    xml = Builder::XmlMarkup.new( :indent => 2 )
+    xml.instruct! :xml, :encoding => 'UTF-8'
+    xml.signature( 
+      :path => File.basename(file_path), 
+      :key => File.join('keys', File.basename(public_key_path)), 
+      :value => signature_value 
+    )
+    
+    signature_path = file_path.chomp( File.extname(file_path) ) + '.signature'
+    File.open( signature_path, 'w' ) { |f| f.write( xml.target! ) }
+    
+    signature_path
   end
   
 end

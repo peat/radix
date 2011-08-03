@@ -8,8 +8,11 @@ describe Radix do
     @schema_path = File.join( RADIX_ROOT, 'schema', 'radix.xsd' )
     @bad_manifest_path = File.join( RADIX_ROOT, 'fixtures', 'manifest-invalid.xml' )
     @good_manifest_path = File.join( RADIX_ROOT, 'fixtures', 'manifest-valid.xml' )
+    @good_banknote_path = File.join( RADIX_ROOT, 'fixtures', 'banknote-valid.xml' )
     @private_key_path = File.join( RADIX_ROOT, 'fixtures', 'keys', 'fixture.pem' )
-    @public_key_path = File.join( RADIX_ROOT, 'fixtures', 'keys', 'fixture.pub' )    
+    @public_key_path = File.join( RADIX_ROOT, 'fixtures', 'keys', 'fixture.pub' )
+    
+    @delete = [] # for cleaning up files
   end
   
   describe "Radix#valid_xml?" do
@@ -59,6 +62,29 @@ describe Radix do
     it "should throw a standard file exception if the file can't be loaded" do
       lambda { Radix.digest( 'some/bad/file' ) }.should raise_error
     end
+  end
+  
+  describe "Radix#generate_signature_file" do
+    
+    it "should generate a signature file for the specified XML file and private key" do
+      signature_path = Radix.generate_signature_file( @good_banknote_path, @private_key_path, @public_key_path )
+            
+      File.exist?( signature_path ).should be_true
+      Radix.valid_xml?( signature_path, @schema_path ).should be_true
+      
+      @delete << signature_path
+    end
+    
+  end
+  
+  describe "Radix#valid_signature_file?" do
+    
+    it "should ensure a signature file is correct."
+    
+  end
+  
+  after(:all) do
+    File.delete( *@delete )
   end
   
 end

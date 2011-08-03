@@ -9,13 +9,14 @@
   
   <!-- simple elements -->
   <xs:element name="id" type="uuidType" />
-  <xs:element name="signature" type="xs:string"/>
   <xs:element name="name" type="xs:string"/>
   <xs:element name="email" type="xs:string"/>
   
   <!-- definition of attributes -->
   <xs:attribute name="url" type="xs:string"/>
   <xs:attribute name="path" type="xs:string"/>
+  <xs:attribute name="key" type="xs:string"/>
+  <xs:attribute name="value" type="xs:string"/>
   
   <!-- complex objects -->
   <xs:element name="file">
@@ -30,6 +31,14 @@
         <xs:element ref="id" />
         <xs:element ref="file" maxOccurs="unbounded" />
       </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="signature">
+    <xs:complexType>
+      <xs:attribute ref="path"/>
+      <xs:attribute ref="key"/>
+      <xs:attribute ref="value"/>
     </xs:complexType>
   </xs:element>
 
