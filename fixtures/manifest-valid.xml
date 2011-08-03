@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <!-- the canonical ID for this object; should be a UUID, referenced in each file in the package -->
+  <id>550e8400-e29b-41d4-a716-446655440000</id>
+
+  <!-- the path to the file being described, relative to the local directory -->
+  <file path="banknote.xml" />
+  <file path="certification.xml" />
+  
+</manifest>

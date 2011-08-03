@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <!-- invalid UUID; missing digit in last segment -->
+  <id>550e8400-e29b-41d4-a716-44665544000</id>
+
+  <!-- invalid file; missing path attribute -->
+  <file />
+  
+</manifest>

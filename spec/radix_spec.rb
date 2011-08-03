@@ -6,8 +6,8 @@ describe Radix do
 
   before(:all) do
     @manifest_schema_path = File.join( RADIX_ROOT, 'schema', 'manifest.xsd' )
-    @bad_manifest_path = File.join( RADIX_ROOT, 'fixtures', 'manifest', 'invalid.xml' )
-    @good_manifest_path = File.join( RADIX_ROOT, 'fixtures', 'manifest', 'valid.xml' )
+    @bad_manifest_path = File.join( RADIX_ROOT, 'fixtures', 'manifest-invalid.xml' )
+    @good_manifest_path = File.join( RADIX_ROOT, 'fixtures', 'manifest-valid.xml' )
     @private_key_path = File.join( RADIX_ROOT, 'fixtures', 'keys', 'fixture.pem' )
     @public_key_path = File.join( RADIX_ROOT, 'fixtures', 'keys', 'fixture.pub' )    
   end
