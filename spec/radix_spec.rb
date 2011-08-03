@@ -12,7 +12,7 @@ describe Radix do
     @public_key_path = File.join( RADIX_ROOT, 'fixtures', 'keys', 'fixture.pub' )    
   end
   
-  describe "Radix#xml_errors?" do
+  describe "Radix#valid_xml?" do
         
     it "should validate the XML for a given file by enforcing the indicated XSL" do
       Radix.valid_xml?( @good_manifest_path, @manifest_schema_path ).should be_true
