@@ -8,6 +8,8 @@ describe Radix do
     @manifest_schema_path = File.join( RADIX_ROOT, 'schema', 'manifest.xsd' )
     @bad_manifest_path = File.join( RADIX_ROOT, 'fixtures', 'manifest', 'invalid.xml' )
     @good_manifest_path = File.join( RADIX_ROOT, 'fixtures', 'manifest', 'valid.xml' )
+    @private_key_path = File.join( RADIX_ROOT, 'fixtures', 'keys', 'fixture.pem' )
+    @public_key_path = File.join( RADIX_ROOT, 'fixtures', 'keys', 'fixture.pub' )    
   end
   
   describe "Radix#xml_errors?" do
@@ -30,9 +32,18 @@ describe Radix do
   
   describe "Radix#signature" do
     
-    it "should create a signature of an file based on a private key and a digest" do
-      private_key_path = File.join( RADIX_ROOT, 'fixtures', 'keys', 'fixture.pem' )
-      Radix.signature( @good_manifest_path, private_key_path )
+    it "should create a signature of an file based on a private key" do
+      # simple check; real meat is in #check_signature
+      Radix.signature( @good_manifest_path, @private_key_path ).should be_a(String)
+    end
+    
+  end
+  
+  describe "Radix#valid_signature?" do
+    
+    it "should check a signature, given a file, an existing signature, and a public key" do
+      signature = Radix.signature( @good_manifest_path, @private_key_path )
+      Radix.valid_signature?( @good_manifest_path, @public_key_path, signature ).should be_true
     end
     
   end
