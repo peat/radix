@@ -4,7 +4,10 @@ require 'openssl'
 require 'base64'
 
 class Radix
-    
+  
+  # validates the file at xml_path with the XSD schema at schema_path
+  #
+  # returns: an Array containing the errors (empty if none)
   def self.xml_errors( xml_path, schema_path )
     doc = Nokogiri::XML( File.read( xml_path ) )
     xsd = Nokogiri::XML::Schema( File.read( schema_path ) )
@@ -12,14 +15,19 @@ class Radix
     xsd.validate(doc)    
   end
   
+  # validates the file at xml_path with the XSD schema at schema_path
+  #
+  # returns: true if valid, false otherwise.
   def self.valid_xml?( xml_path, schema_path )
     xml_errors( xml_path, schema_path ).empty?
   end
   
+  # returns: a SHA2, 256-bit digest for the file at file_path
   def self.digest( file_path )
     Digest::SHA2.hexdigest( File.read( file_path ) )
   end
   
+  # returns: a base-64 encoded, private key encrypted digest for the file_path 
   def self.signature( file_path, private_key_path )
     plain_text = digest( file_path )
     private_key = OpenSSL::PKey::RSA.new( File.read( private_key_path ) )
@@ -27,6 +35,7 @@ class Radix
     Base64.strict_encode64( raw_signature )
   end
   
+  # returns: true if the encoded_signature is valid for a file, given a public_key
   def self.valid_signature?( file_path, public_key_path, encoded_signature )
     plain_text = digest( file_path ) # get the original file digest.
     public_key = OpenSSL::PKey::RSA.new( File.read( public_key_path ) )
