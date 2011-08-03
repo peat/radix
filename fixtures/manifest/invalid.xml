@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <!-- invalid UUID; missing digit in last segment -->
+  <id>550e8400-e29b-41d4-a716-44665544000</id>
+
+  <!-- invalid file; no path attribute -->
+  <file>
+    
+    <!-- optional; this is a signed SHA256 hash of the file content. -->
+    <signature>473287f8298dba7163a897908958f7c0eae733e25d2e027992ea2edc9bed2fa8</signature>
+
+    <!-- if url is present, this should be used as the canonical reference -->
+    <owner url="http://identityserver.com/identity.xml">
+      
+      <!-- optional; this is not secure -->
+      <name>Peat Bakke</name>
+      
+      <!-- optional; this is not secure -->
+      <email>peat@peat.org</email>
+      
+      <!-- optional; public key should be verifiable by hitting the url above -->
+      <key path="keys/123456.pub" />
+    </owner>
+  </file>
+  
+</manifest>
