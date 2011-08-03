@@ -28,4 +28,16 @@ describe Radix do
     
   end
   
+  describe "Radix#digest" do
+    it "should create a SHA256 digest for a file" do
+      Radix.digest( @good_manifest_path ).length.should eq(64)
+    end
+    
+    it "should throw a standard file exception if the file can't be loaded" do
+      lambda { Radix.digest( 'some/bad/file' ) }.should raise_error
+    end
+  end
+  
+
+  
 end

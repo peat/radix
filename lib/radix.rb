@@ -1,4 +1,5 @@
 require 'nokogiri'
+require 'digest/sha2'
 
 class Radix
     
@@ -11,6 +12,10 @@ class Radix
   
   def self.valid_xml?( xml_path, schema_path )
     xml_errors( xml_path, schema_path ).empty?
+  end
+  
+  def self.digest( file_path )
+    Digest::SHA2.hexdigest( File.read( file_path ) )
   end
   
 end
