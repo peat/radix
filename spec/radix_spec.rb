@@ -33,7 +33,7 @@ describe Radix do
   describe "Radix#signature" do
     
     it "should create a signature of an file based on a private key" do
-      # simple check; real meat is in #check_signature
+      # simple check; real meat is in #valid_signature?
       Radix.signature( @good_manifest_path, @private_key_path ).should be_a(String)
     end
     
@@ -60,7 +60,5 @@ describe Radix do
       lambda { Radix.digest( 'some/bad/file' ) }.should raise_error
     end
   end
-  
-
   
 end
