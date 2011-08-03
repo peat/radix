@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <!-- the canonical ID for this object; should be a UUID, referenced in each file in the package -->
+  <id>550e8400-e29b-41d4-a716-446655440000</id>
+
+  <!-- the path to the file being described, relative to the local directory -->
+  <file path="banknote.xml">
+    
+    <!-- optional; this is a signed SHA256 hash of the file content. -->
+    <signature>473287f8298dba7163a897908958f7c0eae733e25d2e027992ea2edc9bed2fa8</signature>
+
+    <!-- if url is present, this should be used as the canonical reference -->
+    <owner url="http://identityserver.com/identity.xml">
+      
+      <!-- optional; this is not secure -->
+      <name>Peat Bakke</name>
+      
+      <!-- optional; this is not secure -->
+      <email>peat@peat.org</email>
+      
+      <!-- optional; public key should be verifiable by hitting the url above -->
+      <key path="keys/123456.pub" />
+    </owner>
+  </file>
+  
+</manifest>

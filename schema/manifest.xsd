@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <!-- basic types -->
+  <xs:simpleType name="uuidType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!-- simple elements -->
+  <xs:element name="id" type="uuidType" />
+  <xs:element name="signature" type="xs:string"/>
+  <xs:element name="name" type="xs:string"/>
+  <xs:element name="email" type="xs:string"/>
+  
+  <!-- definition of attributes -->
+  <xs:attribute name="url" type="xs:string"/>
+  <xs:attribute name="path" type="xs:string"/>
+  
+  <!-- complex objects -->
+  <xs:element name="key">
+    <xs:complexType>
+      <xs:attribute ref="path" />
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="owner">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="name" />
+        <xs:element ref="email" />
+        <xs:element ref="key" />
+      </xs:sequence>
+      <xs:attribute ref="url"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="file">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="signature" />
+        <xs:element ref="owner" />
+      </xs:sequence>
+      <xs:attribute ref="path" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="manifest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="id" />
+        <xs:element ref="file" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

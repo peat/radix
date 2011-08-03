@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<banknote object="12345" timestamp="2004-10-14T12:27:39">
+  
+  <!-- The "master" is common information information about all copies of this note -->
+  <master>
+    
+    <!-- The geographical region where this is from -->
+    <region>
+      <name />
+      <localized />
+    </region>
+
+    <!-- The issuing authority for this banknote -->
+    <authority>
+      <name />
+      <localized />
+    </authority>
+
+    <!-- The name of the currency for this banknote -->
+    <currency>
+      <name />
+      <localized />
+    </currency>
+
+    <!-- The denomination -->
+    <denomination/>
+
+    <!-- An external reference, eg: Pick code -->
+    <external />
+
+    <!-- An identifier of the series of the note -->
+    <series/>
+
+    <!-- Descriptive text -->
+    <description>
+      <obverse />
+      <reverse />
+    </description>
+
+    <!-- When the note was issued -->
+    <issued>
+      <year />
+      <month />
+      <day />
+    </issued>
+
+    <!-- When the note was withdrawn from circulation -->
+    <withdrawn>
+      <year />
+      <month />
+      <day />
+    </withdrawn>
+    
+    <!-- When the note lapsed as legal tender -->
+    <lapsed>
+      <year />
+      <month />
+      <day />
+    </lapsed>
+    
+    <overprint>
+      <!-- The issuing authority for the overprint on the banknote -->
+      <authority>
+        <name />
+        <localized />
+      </authority>
+
+      <!-- The name of the currency for the overprint on the banknote -->
+      <currency>
+        <name />
+        <localized />
+      </currency>
+      
+      <!-- The denomination of the overprint on the banknote-->
+      <denomination/>
+      
+    </overprint>
+    
+  </master>
+  
+  <instance>
+    
+    <!-- the serial number for this specific banknote -->
+    <serial/>
+    
+    <!-- boolean; whether or not this is a specimen note -->
+    <specimen />
+    
+    <!-- boolean; whether or not this is a replacement note -->
+    <replacement />
+    
+    <!-- date printed -->
+    <printed>
+      <year/>
+      <month/>
+      <day/>
+    </printed>
+    
+    <!-- a description of this specific note -->
+    <description>
+      <obverse />
+      <reverse />
+    </description>
+    
+  </instance>
+  
+<banknote>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object id="12345">
+  
+  <file path="banknote.xml">
+    <signature />
+    <name />
+    <email />
+    <key />  
+  </file>
+  
+  <file path="grade.xml">
+    <signature />
+    <name />
+    <email />
+    <key />
+  </file>
+  
+</object>
