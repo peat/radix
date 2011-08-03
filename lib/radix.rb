@@ -6,11 +6,15 @@ require 'builder'
 
 class Radix
   
+  def self.open_xml( xml_path )
+    Nokogiri::XML( File.read( xml_path ) )
+  end
+  
   # validates the file at xml_path with the XSD schema at schema_path
   #
   # returns: an Array containing the errors (empty if none)
   def self.xml_errors( xml_path, schema_path )
-    doc = Nokogiri::XML( File.read( xml_path ) )
+    doc = open_xml( xml_path )
     xsd = Nokogiri::XML::Schema( File.read( schema_path ) )
     
     xsd.validate(doc)    
@@ -61,6 +65,26 @@ class Radix
     File.open( signature_path, 'w' ) { |f| f.write( xml.target! ) }
     
     signature_path
+  end
+  
+  def self.valid_signature_file?( file_path )
+    doc = open_xml( file_path )
+    signature_node = doc.at_xpath('//signature')
+    
+    # sort out the base path, because all paths are relative
+    base_path = File.dirname( file_path )
+    source_file_path = File.join( base_path, signature_node['path'] )
+    public_key_path = File.join( base_path, signature_node['key'] )
+    
+    # pull out the signature value for comparison
+    signature_value = signature_node['value']
+    
+    begin
+      return valid_signature?( source_file_path, public_key_path, signature_value )
+    rescue
+      # all sorts of terrible things can take us here!
+      return false
+    end
   end
   
 end

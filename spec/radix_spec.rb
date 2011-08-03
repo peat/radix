@@ -79,7 +79,12 @@ describe Radix do
   
   describe "Radix#valid_signature_file?" do
     
-    it "should ensure a signature file is correct."
+    it "should ensure a signature file is correct." do
+      signature_path = Radix.generate_signature_file( @good_banknote_path, @private_key_path, @public_key_path )
+      
+      Radix.valid_signature_file?( signature_path ).should be_true
+      Radix.valid_signature_file?( File.join( RADIX_ROOT, 'fixtures', 'manifest-invalid.signature' ) ).should be_false
+    end
     
   end
   
