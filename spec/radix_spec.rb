@@ -44,6 +44,9 @@ describe Radix do
     it "should check a signature, given a file, an existing signature, and a public key" do
       signature = Radix.signature( @good_manifest_path, @private_key_path )
       Radix.valid_signature?( @good_manifest_path, @public_key_path, signature ).should be_true
+      
+      # pointing at a slightly altered file
+      Radix.valid_signature?( @bad_manifest_path, @public_key_path, signature ).should be_false
     end
     
   end

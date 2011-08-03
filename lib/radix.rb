@@ -30,8 +30,8 @@ class Radix
   def self.valid_signature?( file_path, public_key_path, encoded_signature )
     plain_text = digest( file_path ) # get the original file digest.
     public_key = OpenSSL::PKey::RSA.new( File.read( public_key_path ) )
-    encrypted_signature = Base64.strict_decode64( encrypted_signature )
-    raw_signature = public_key.private_decrypt( encrypted_signature )
+    encrypted_signature = Base64.strict_decode64( encoded_signature )
+    raw_signature = public_key.public_decrypt( encrypted_signature )
     
     plain_text == raw_signature
   end
