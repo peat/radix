@@ -28,6 +28,15 @@ describe Radix do
     
   end
   
+  describe "Radix#signature" do
+    
+    it "should create a signature of an file based on a private key and a digest" do
+      private_key_path = File.join( RADIX_ROOT, 'fixtures', 'keys', 'fixture.pem' )
+      Radix.signature( @good_manifest_path, private_key_path )
+    end
+    
+  end
+
   describe "Radix#digest" do
     it "should create a SHA256 digest for a file" do
       Radix.digest( @good_manifest_path ).length.should eq(64)
