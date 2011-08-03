@@ -18,6 +18,8 @@ and public key cryptography.
 This repository provides proof of concept tools for the _Radix_ system. It is
 not production ready, and users should expect it to change significantly!
 
+Also: there are no command line tools. You're flying with alpha quality code, man.
+
 ## Radix "Package"
 
 A _package_ corresponds with the object you're describing or tracking. A package
