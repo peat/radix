@@ -18,29 +18,8 @@
   <xs:attribute name="path" type="xs:string"/>
   
   <!-- complex objects -->
-  <xs:element name="key">
-    <xs:complexType>
-      <xs:attribute ref="path" />
-    </xs:complexType>
-  </xs:element>
-  
-  <xs:element name="owner">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element ref="name" />
-        <xs:element ref="email" />
-        <xs:element ref="key" />
-      </xs:sequence>
-      <xs:attribute ref="url"/>
-    </xs:complexType>
-  </xs:element>
-
   <xs:element name="file">
     <xs:complexType>
-      <xs:sequence>
-        <xs:element ref="signature" />
-        <xs:element ref="owner" />
-      </xs:sequence>
       <xs:attribute ref="path" />
     </xs:complexType>
   </xs:element>
