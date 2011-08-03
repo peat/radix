@@ -1,23 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <!-- basic types -->
-  <xs:simpleType name="uuidType">
+  <xs:simpleType name="uuid">
     <xs:restriction base="xs:string">
       <xs:pattern value="[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}" />
     </xs:restriction>
   </xs:simpleType>
   
+  <xs:complexType name="localizedName">
+    <xs:sequence>
+      <xs:element ref="name"/>
+      <xs:element ref="localized" minOccurs="0" />
+    </xs:sequence>   
+  </xs:complexType>
+  
+  <xs:complexType name="sparseDate">
+    <xs:attribute ref="year" />
+    <xs:attribute ref="month" />
+    <xs:attribute ref="day" />
+  </xs:complexType>
+  
   <!-- simple elements -->
-  <xs:element name="id" type="uuidType" />
+  <xs:element name="id" type="uuid" />
   <xs:element name="name" type="xs:string"/>
+  <xs:element name="localized" type="xs:string"/>
   <xs:element name="email" type="xs:string"/>
+  <xs:element name="denomination" type="xs:decimal"/>
+  <xs:element name="external" type="xs:string"/>
+  <xs:element name="series" type="xs:string"/>
+  <xs:element name="obverse" type="xs:string"/>
+  <xs:element name="reverse" type="xs:string"/>
+  <xs:element name="serial" type="xs:string"/>
+  <xs:element name="specimen" type="xs:boolean"/>
+  <xs:element name="replacement" type="xs:boolean"/>
+  <xs:element name="note" type="xs:string"/>
   
   <!-- definition of attributes -->
   <xs:attribute name="url" type="xs:string"/>
   <xs:attribute name="path" type="xs:string"/>
   <xs:attribute name="key" type="xs:string"/>
   <xs:attribute name="value" type="xs:string"/>
-  
+  <xs:attribute name="id" type="uuid"/>
+  <xs:attribute name="timestamp" type="xs:dateTime" />
+  <xs:attribute name="year" type="xs:integer"/>
+  <xs:attribute name="month" type="xs:integer"/>
+  <xs:attribute name="day" type="xs:integer"/>
+    
   <!-- complex objects -->
   <xs:element name="file">
     <xs:complexType>
@@ -28,7 +56,7 @@
   <xs:element name="manifest">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="id" />
+        <xs:element ref="id" minOccurs="1" />
         <xs:element ref="file" maxOccurs="unbounded" />
       </xs:sequence>
     </xs:complexType>
@@ -39,6 +67,59 @@
       <xs:attribute ref="path"/>
       <xs:attribute ref="key"/>
       <xs:attribute ref="value"/>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="region" type="localizedName" />
+  <xs:element name="authority" type="localizedName" />
+  <xs:element name="currency" type="localizedName" />
+
+  <xs:element name="description">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="obverse"/>
+        <xs:element ref="reverse"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="issued" type="sparseDate"/>
+  <xs:element name="printed" type="sparseDate"/>
+  <xs:element name="withdrawn" type="sparseDate"/>
+  <xs:element name="lapsed" type="sparseDate" />
+  
+  <xs:element name="overprint">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="authority" type="localizedName" />
+        <xs:element name="currency" type="localizedName" />
+        <xs:element ref="denomination" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="banknote">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="region" />
+        <xs:element ref="authority" />
+        <xs:element ref="currency" />
+        <xs:element ref="denomination" />
+        <xs:element ref="external" />
+        <xs:element ref="series" />
+        <xs:element ref="description" />
+        <xs:element ref="issued" minOccurs="0" />
+        <xs:element ref="printed" minOccurs="0" />
+        <xs:element ref="withdrawn" minOccurs="0" />
+        <xs:element ref="lapsed" minOccurs="0" />
+        <xs:element ref="overprint" minOccurs="0" />
+        <xs:element ref="serial" minOccurs="0" />
+        <xs:element ref="specimen" />
+        <xs:element ref="replacement" />
+        <xs:element ref="note" />
+      </xs:sequence>
+      <xs:attribute ref="id" use="required" />
+      <xs:attribute ref="timestamp" use="required" />
     </xs:complexType>
   </xs:element>
 

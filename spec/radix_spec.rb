@@ -83,8 +83,28 @@ describe Radix do
       signature_path = Radix.generate_signature_file( @good_banknote_path, @private_key_path, @public_key_path )
       
       Radix.valid_signature_file?( signature_path ).should be_true
-      Radix.valid_signature_file?( File.join( RADIX_ROOT, 'fixtures', 'manifest-invalid.signature' ) ).should be_false
+      lambda { 
+        Radix.valid_signature_file?( File.join( RADIX_ROOT, 'fixtures', 'manifest-invalid.signature' ) ) 
+      }.should raise_error
     end
+    
+  end
+
+  describe "Radix#valid_manifest?" do
+    
+    it "should ensure that a manifest parses, that the indicated files parse, and that signatures are valid" do
+      # make sure our signature file exists for the banknotes, which is referenced in the manifest.
+      Radix.generate_signature_file( @good_banknote_path, @private_key_path, @public_key_path )
+      
+      Radix.valid_manifest?( @good_manifest_path, @schema_path ).should be_true
+      Radix.valid_manifest?( @bad_manifest_path, @schema_path ).should be_false
+    end
+    
+  end
+  
+  describe "Radix#valid_package?" do
+    
+    it "should ensure that the manifest is valid, and all signatures are valid"
     
   end
   

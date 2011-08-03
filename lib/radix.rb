@@ -10,12 +10,16 @@ class Radix
     Nokogiri::XML( File.read( xml_path ) )
   end
   
+  def self.open_schema( schema_path )
+    Nokogiri::XML::Schema( File.read( schema_path ) )
+  end
+  
   # validates the file at xml_path with the XSD schema at schema_path
   #
   # returns: an Array containing the errors (empty if none)
   def self.xml_errors( xml_path, schema_path )
     doc = open_xml( xml_path )
-    xsd = Nokogiri::XML::Schema( File.read( schema_path ) )
+    xsd = open_schema( schema_path )
     
     xsd.validate(doc)    
   end
@@ -61,10 +65,14 @@ class Radix
       :value => signature_value 
     )
     
-    signature_path = file_path.chomp( File.extname(file_path) ) + '.signature'
+    signature_path = signature_path_for( file_path )
     File.open( signature_path, 'w' ) { |f| f.write( xml.target! ) }
     
     signature_path
+  end
+  
+  def self.signature_path_for( file_path )
+    file_path.chomp( File.extname(file_path) ) + '.signature'
   end
   
   def self.valid_signature_file?( file_path )
@@ -79,12 +87,55 @@ class Radix
     # pull out the signature value for comparison
     signature_value = signature_node['value']
     
-    begin
-      return valid_signature?( source_file_path, public_key_path, signature_value )
-    rescue
-      # all sorts of terrible things can take us here!
-      return false
+    valid_signature?( source_file_path, public_key_path, signature_value )
+  end
+  
+  def self.manifest_errors( file_path, schema_path )
+    errors = []
+    
+    manifest_doc = open_xml( file_path )
+    schema = open_schema( schema_path )
+    
+    schema.validate(manifest_doc).each do |err|
+      errors << "#{file_path} validation error: #{err}"
     end
+    
+    return errors unless errors.empty?
+    
+    # pull out the manifest object ID
+    manifest_id = manifest_doc.at_xpath('/manifest/id').text
+    
+    # paths are relative in manifest; sort out the real paths
+    base_path = File.dirname( file_path )
+    
+    # validate the referenced files
+    manifest_doc.xpath('/manifest/file').each do |f|
+      file_path = File.join( base_path, f['path'] )
+      file_doc = open_xml( file_path )
+    
+      # error unless file validates against the schema
+      schema.validate(file_doc).each do |err|
+        errors << "#{f['path']} validation error: #{err}"
+      end
+    
+      # error unless file's ID matches the manifest ID
+      if file_doc.children.first['id'] != manifest_id
+        errors << "ID in #{f['path']} does not match manifest ID: #{manifest_id}"
+      end
+      
+      # validate signature if it exists
+      signature_path = signature_path_for( file_path )
+      unless valid_signature_file?( signature_path )
+        errors << "Invalid signature in #{signature_path}"
+      end
+      
+    end    
+    
+    errors
+  end
+  
+  def self.valid_manifest?( file_path, schema_path )
+    manifest_errors( file_path, schema_path ).empty?
   end
   
 end
