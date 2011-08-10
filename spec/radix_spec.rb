@@ -104,7 +104,12 @@ describe Radix do
   
   describe "Radix#valid_package?" do
     
-    it "should ensure that the manifest is valid, and all signatures are valid"
+    it "should ensure that the manifest is valid, and all signatures are valid" do
+      good_package_path = File.join( RADIX_ROOT, 'fixtures', 'packages', 'banknote-example.radix' )
+      
+      Radix.valid_package?( good_package_path, @schema_path ).should be_true
+    end
+    
     
   end
   

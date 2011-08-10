@@ -3,6 +3,8 @@ require 'digest/sha2'
 require 'openssl'
 require 'base64'
 require 'builder'
+require 'fileutils'
+require 'tmpdir'
 
 class Radix
   
@@ -136,6 +138,22 @@ class Radix
   
   def self.valid_manifest?( file_path, schema_path )
     manifest_errors( file_path, schema_path ).empty?
+  end
+  
+  def self.valid_package?( package_path, schema_path )
+    raise "File not found: #{package_path}" unless File.exist? package_path
+    
+    # do everything in the context of a valid tmp directory
+    Dir.mktmpdir('radix') { |dir|      
+      # unpack the file
+      # TODO libarchive gem fails! using shell!
+      cmd = ['tar', 'zxf', package_path, '-C', dir ]
+      IO::popen( cmd ) { |io| true; } # force to synchronously
+      
+      # if there aren't any manifest errors, great!
+      valid_manifest?( File.join( dir, 'manifest.xml' ), schema_path )    
+      # mktmpdir returns the last value; valid_manifest? passes through!
+    }
   end
   
 end
